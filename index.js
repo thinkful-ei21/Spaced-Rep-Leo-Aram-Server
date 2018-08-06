@@ -43,12 +43,6 @@ app.use('/api/stats/', jwtAuth, statsRouter);
 app.use('/api/users/', usersRouter);
 app.use('/api/auth/', authRouter);
 
-app.use((req, res, next) => {
-  const err = new Error('Not Found');
-  err.status = 404;
-  next(err);
-});
-
 let server;
 
 function runServer(databaseUrl, port = PORT) {
