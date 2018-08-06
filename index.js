@@ -1,14 +1,20 @@
 'use strict';
-
+require('dotenv').config();
+const mongoose = require('mongoose');
 const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
+const passport = require('passport');
 
-const { PORT, CLIENT_ORIGIN } = require('./config');
-const { dbConnect } = require('./db-mongoose');
-// const {dbConnect} = require('./db-knex');
+const { PORT, CLIENT_ORIGIN, DATABASE_URL } = require('./config');
+
+const { router: statsRouter } = require('./routes/stats');
+const { router: usersRouter } = require('./routes/users');
+const { router: authRouter, localStrategy, jwtStrategy } = require('./passport/index');
 
 const app = express();
+
+mongoose.Promise = global.Promise;
 
 app.use(
   morgan(process.env.NODE_ENV === 'production' ? 'common' : 'dev', {
@@ -16,26 +22,70 @@ app.use(
   })
 );
 
+// Create a static webserver
+app.use(express.static('public'));
+
 app.use(
   cors({
     origin: CLIENT_ORIGIN
   })
 );
 
-function runServer(port = PORT) {
-  const server = app
-    .listen(port, () => {
-      console.info(`App listening on port ${server.address().port}`);
-    })
-    .on('error', err => {
-      console.error('Express failed to start');
-      console.error(err);
+// Utilize the given `strategy`
+passport.use(localStrategy);
+passport.use(jwtStrategy);
+
+// Protect endpoints using JWT Strategy
+const jwtAuth = passport.authenticate('jwt', { session: false, failWithError: true });
+
+// Mount routers
+app.use('/api/stats/', jwtAuth, statsRouter);
+app.use('/api/users/', usersRouter);
+app.use('/api/auth/', authRouter);
+
+app.use((req, res, next) => {
+  const err = new Error('Not Found');
+  err.status = 404;
+  next(err);
+});
+
+let server;
+
+function runServer(databaseUrl, port = PORT) {
+
+  return new Promise((resolve, reject) => {
+    mongoose.connect(databaseUrl, err => {
+      if (err) {
+        return reject(err);
+      }
+      server = app.listen(port, () => {
+        console.log(`Your app is listening on port ${port}`);
+        resolve();
+      })
+        .on('error', err => {
+          mongoose.disconnect();
+          reject(err);
+        });
     });
+  });
+}
+
+function closeServer() {
+  return mongoose.disconnect().then(() => {
+    return new Promise((resolve, reject) => {
+      console.log('Closing server');
+      server.close(err => {
+        if (err) {
+          return reject(err);
+        }
+        resolve();
+      });
+    });
+  });
 }
 
 if (require.main === module) {
-  dbConnect();
-  runServer();
+  runServer(DATABASE_URL).catch(err => console.error(err));
 }
 
-module.exports = { app };
+module.exports = { app, runServer, closeServer };
