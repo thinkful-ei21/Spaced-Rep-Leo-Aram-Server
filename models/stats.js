@@ -29,3 +29,9 @@ statsSchema.methods.serialize = function () {
 const Stats = mongoose.model('Stats', statsSchema);
 
 module.exports = { Stats };
+
+
+
+
+
+

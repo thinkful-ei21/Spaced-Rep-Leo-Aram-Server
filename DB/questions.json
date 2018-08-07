@@ -1,0 +1,27 @@
+[
+    {
+        "difficulty": "beginner",
+        "english": "airport",
+        "spanish": "el aeropuerto"
+    },
+    {
+        "difficulty": "beginner",
+        "english": "park",
+        "spanish": "el parque"
+    },
+    {
+        "difficulty": "beginner",
+        "english": "bank",
+        "spanish": "el banco"
+    },
+    {
+        "difficulty": "beginner",
+        "english": "garden",
+        "spanish": "el gardin"
+    },
+    {
+        "difficulty": "beginner",
+        "english": "home",
+        "spanish": "el hogar"
+    }
+]
