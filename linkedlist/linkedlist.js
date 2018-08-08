@@ -29,7 +29,6 @@ class LinkedList {
     }
   }
 
-  /**Inserts a new node after a node containing the key.*/
   insertAfter(key, itemToInsert) {
     let tempNode = this.head;
     while (tempNode !== null && tempNode.value !== key) {
@@ -40,7 +39,6 @@ class LinkedList {
     }
   }
 
-  /* Inserts a new node before a node containing the key.*/
   insertBefore(key, itemToInsert) {
     if (this.head === null) {
       return;
@@ -117,7 +115,7 @@ class LinkedList {
       if (currNode.next === null) {
         return null;
       }
-      else {g
+      else {
         currNode = currNode.next;
       }
     }
