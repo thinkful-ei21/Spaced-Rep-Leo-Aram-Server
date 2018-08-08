@@ -1,14 +1,13 @@
 const mongoose = require('mongoose');
 
-const questionsSchema = new mongoose.Schema({
-  difficulty: { type: String, required: true },
-  spanish: { type: String, required: true },
-  english: { type: String, required: true }
+const questionSchema = mongoose.Schema({
+  spanish: { type: String },
+  english: { type: String }
 });
 
-questionsSchema.set('timestamps', true);
+questionSchema.set('timestamps', true);
 
-questionsSchema.set('toObject', {
+questionSchema.set('toObject', {
   virtuals: true,
   versionKey: false,
   transform: (doc, ret) => {
@@ -16,7 +15,16 @@ questionsSchema.set('toObject', {
   }
 });
 
+questionSchema.methods.serialize = function(){
+  return{
+    id: this._id,
+    spanish: this.spanish ,
+    english: this.english ,
 
-const Questions = mongoose.model('Questions', questionsSchema);
+  };
+};
 
-module.exports = { Questions };
+
+const Question = mongoose.model('Question', questionSchema);
+
+module.exports = { Question };
