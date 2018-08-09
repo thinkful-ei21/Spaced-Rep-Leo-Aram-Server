@@ -57,4 +57,41 @@ router.get('/wrong',jwtAuth, (req, res, next)=>{
     })
     .catch(err => next(err));
 });
+
+
+
+router.put('/',jwtAuth, (req, res, next)=>{
+  const answer= req.body;
+  console.log(req.body);
+  const userId = req.user.id;
+  User.findById(req.user.id)
+    .select('questions')
+    .then((result) => {
+      let tempList = new LinkedList();
+      let tempPointer = result.questions.head;
+      while (tempPointer !== null){
+        tempList.insertLast(tempPointer.data);
+        tempPointer = tempPointer.next;
+      }
+      console.log(result.questions.head.data.wordPair);
+      if(result.questions.head.data.wordPair=== answer || result.questions.head.data.wordPair=== answer){
+        tempList.setM(true);
+        User.updateOne({_id:userId}, {$set: {'questions':tempList}});
+        return true;
+      }
+      else{
+        tempList.setM(false);
+        User.updateOne({_id:userId}, {$set: {'questions':tempList}});
+        return false;
+      }
+    })
+    .then(data=>{
+      console.log(data);
+      res.status(204).json(data);
+    })
+    .catch(err => next(err));
+});
+
+
+
 module.exports = { router };
