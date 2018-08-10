@@ -25,8 +25,7 @@ app.use(
 
 // Create a static webserver
 app.use(express.static('public'));
-app.use(bodyParser.json());
-app.use(bodyParser.text());
+
 
 app.use(
   cors({
@@ -34,13 +33,15 @@ app.use(
   })
 );
 
+
 // Utilize the given `strategy`
 passport.use(localStrategy);
 passport.use(jwtStrategy);
 
 // Protect endpoints using JWT Strategy
 const jwtAuth = passport.authenticate('jwt', { session: false, failWithError: true });
-
+app.use(bodyParser.json());
+app.use(bodyParser.text());
 // Mount routers
 app.use('/api/questions', jwtAuth, questionsRouter);
 app.use('/api/users', usersRouter);
