@@ -1,27 +1,45 @@
 [
     {
-        "difficulty": "beginner",
         "english": "airport",
-        "spanish": "el aeropuerto"
+        "spanish": "aeropuerto"
     },
     {
-        "difficulty": "beginner",
         "english": "park",
-        "spanish": "el parque"
+        "spanish": "parque"
     },
     {
-        "difficulty": "beginner",
+
         "english": "bank",
-        "spanish": "el banco"
+        "spanish": "banco"
     },
     {
-        "difficulty": "beginner",
+
         "english": "garden",
-        "spanish": "el gardin"
-    },
+        "spanish": "gardin"
+    },    {
+
+        "english": "hello",
+        "spanish": "hola"
+    },    {
+
+        "english": "thank you",
+        "spanish": "gracias"
+    },    {
+
+        "english": "beer",
+        "spanish": "cerveza"
+    },    {
+
+        "english": "coffee",
+        "spanish": "café"
+    },    {
+
+        "english": "police",
+        "spanish": "policía"
+    },    
     {
-        "difficulty": "beginner",
+
         "english": "home",
-        "spanish": "el hogar"
+        "spanish": "hogar"
     }
 ]
