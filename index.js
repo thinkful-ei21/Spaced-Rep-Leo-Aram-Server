@@ -13,15 +13,13 @@ const { router: usersRouter } = require('./routes/users');
 const { router: questionsRouter } = require('./routes/questions');
 const { router: authRouter, localStrategy, jwtStrategy } = require('./passport/index');
 
-const app = express();
-
 mongoose.Promise = global.Promise;
 
-app.use(
-  morgan(process.env.NODE_ENV === 'production' ? 'common' : 'dev', {
-    skip: (req, res) => process.env.NODE_ENV === 'test'
-  })
-);
+const app = express();
+
+
+// Logging
+app.use(morgan('common'));
 
 // Create a static webserver
 app.use(express.static('public'));
