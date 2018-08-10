@@ -5,6 +5,7 @@ const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
 const passport = require('passport');
+const bodyParser = require('body-parser');
 
 const { PORT, CLIENT_ORIGIN, DATABASE_URL } = require('./config');
 
@@ -24,6 +25,8 @@ app.use(
 
 // Create a static webserver
 app.use(express.static('public'));
+app.use(bodyParser.json());
+app.use(bodyParser.text());
 
 app.use(
   cors({
