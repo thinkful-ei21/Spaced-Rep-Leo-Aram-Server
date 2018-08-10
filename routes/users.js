@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const router = express.Router();
 const { User } = require('../models/users.js');
 const { Question } = require('../models/questions.js');
-const LinkedList = require('../linkedList/linkedList.js');
+const LinkedList = require('../linkedlist/linkedlist.js');
 
 const jsonParser = bodyParser.json();
 

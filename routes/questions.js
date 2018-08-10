@@ -1,7 +1,7 @@
 'use strict';
 const express = require('express');
 const { User } = require('../models/users.js');
-const LinkedList = require('../linkedList/linkedList.js');
+const LinkedList = require('../linkedlist/linkedlist.js');
 const router = express.Router();
 
 router.get('/', (req, res, next) => {
